@@ -9,6 +9,7 @@ __pycache__/
 artifacts/
 
 notebook/data/bank_transactions.csv
+notebook/data/cleaned_data.csv
 
 # Distribution / packaging
 .Python

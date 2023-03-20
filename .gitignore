@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+artifacts/
+
+notebook/data/bank_transactions.csv
+
 # Distribution / packaging
 .Python
 build/
@@ -127,5 +131,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-notebook/data/

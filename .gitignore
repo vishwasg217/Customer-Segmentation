@@ -128,4 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-notebook/data/bank_transactions.csv
+notebook/data

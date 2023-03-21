@@ -8,7 +8,7 @@ __pycache__/
 
 artifacts/
 
-notebook/data/cleaned_data.csv
+notebook/data/
 
 # Distribution / packaging
 .Python

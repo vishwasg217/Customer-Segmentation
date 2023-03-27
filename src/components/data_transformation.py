@@ -1,12 +1,16 @@
-import numpy as np
-import pandas as pd
 from sklearn.ensemble import IsolationForest
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OrdinalEncoder, StandardScaler
 from sklearn.base import BaseEstimator, TransformerMixin
 
+import logging
+import numpy as np
+import pandas as pd
+from src.exception import CustomException
+import sys
 import warnings
 warnings.filterwarnings('ignore')
+
 
 
 # Load the data into a pandas dataframe
@@ -103,29 +107,34 @@ class OrdinalEncoding(BaseEstimator, TransformerMixin):
 class DataTransformation:
 
     def transform_data(self):
-        pipeline = Pipeline(steps=[
-            ('drop_missing', DropNullTransformer()),
-            ('calculate_age', CalculateAge()),
-            ('location_regex', LocationRegex()),
-            ('remove_outliers', RemoveOutliers()),
-            ('ordinal_encoding', OrdinalEncoding()),
-            ('standard_scaling', StandardScaler())
-        ])
-        return pipeline
-
+        try:
+            pipeline = Pipeline(steps=[
+                ('drop_missing', DropNullTransformer()),
+                ('calculate_age', CalculateAge()),
+                ('location_regex', LocationRegex()),
+                ('remove_outliers', RemoveOutliers()),
+                ('ordinal_encoding', OrdinalEncoding()),
+                ('standard_scaling', StandardScaler())
+            ])
+            return pipeline
+        except Exception as e:
+            raise CustomException(e, sys)
     def initiate_data_transformation(self):
-        train_df = pd.read_csv('artifacts/train.csv')
-        test_df = pd.read_csv('artifacts/test.csv')
-
-        train_df = train_df.sample(n=100000)
-        test_df = test_df.sample(n=100000)
-
-        pipeline = self.transform_data()
-        df_transformed = pipeline.fit_transform(df)
-        df_transformed = pd.DataFrame(df_transformed)
-        df_transformed.columns = ['CustomerID', 'CustomerGender', 'CustomerLocation', 'CustAccountBalance', 'TransactionAmount',
-                                  'CustomerAge']
-
+        try:
+            train_df = pd.read_csv('artifacts/train.csv')
+            test_df = pd.read_csv('artifacts/test.csv')
+            logging.info('Data has been read')
+            train_df = train_df.sample(n=100000)
+            test_df = test_df.sample(n=100000)
+            pipeline = self.transform_data()
+            df_transformed = pipeline.fit_transform(df)
+            df_transformed = pd.DataFrame(df_transformed)
+            df_transformed.columns = ['CustomerID', 'CustomerGender', 'CustomerLocation', 'CustAccountBalance', 'TransactionAmount',
+                                      'CustomerAge']
+            logging.info('Data has been transformed')
+            return df_transformed
+        except Exception as e:
+            raise CustomException(e, sys)
 
 
 

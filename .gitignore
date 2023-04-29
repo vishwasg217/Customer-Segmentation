@@ -133,4 +133,4 @@ dmypy.json
 .pyre/
 
 
-notebook/data
+notebook/data/
